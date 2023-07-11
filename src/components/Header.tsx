@@ -1,11 +1,18 @@
-import React from 'react'
 import NewBudget from './NewBudget'
 
-const Header = () => {
+type Props = {
+	budget: number;
+	setBudget: (budget: number) => void;
+}
+
+const Header = ({budget, setBudget}: Props) => {
 	return (
 		<header>
 			<h1>Expense Planner</h1>
-			<NewBudget/>
+			<NewBudget
+				budget={budget}
+				setBudget={setBudget}
+			/>
 		</header>
 	)
 }

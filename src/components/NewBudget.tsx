@@ -1,6 +1,10 @@
-import React from 'react'
 
-const NewBudget = () => {
+type Props = {
+	budget: number;
+	setBudget: (budget: number) => void;
+}
+
+const NewBudget = ({budget, setBudget}: Props) => {
 	return (
 		<div className='contenedor-presupuesto contenedor sombra'>
 			<form className='formulario'>
@@ -8,8 +12,10 @@ const NewBudget = () => {
 					<label>Define budget</label>
 					<input
 						className='nuevo-presupuesto'
-						type="text"
+						type="number"
 						placeholder='enter your budget'
+						value={budget}
+						onChange={e => setBudget(parseFloat(e.target.value))}
 					/>
 
 					<input type="submit" value="Add" />

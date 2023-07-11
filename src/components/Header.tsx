@@ -1,3 +1,4 @@
+import BudgetControl from './BudgetControl';
 import NewBudget from './NewBudget'
 
 type Props = {
@@ -14,7 +15,9 @@ const Header = ({budget, setBudget, budgetIsValid, setBudgetIsValid}: Props) => 
 
 			{
 				budgetIsValid ? (
-					<p>control planner</p>
+					<BudgetControl
+						budget={budget}
+					/>
 				) : (
 					<NewBudget
 						budget={budget}

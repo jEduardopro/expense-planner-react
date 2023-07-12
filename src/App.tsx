@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Header from './components/Header'
 import IconNewBudget from './img/nuevo-gasto.svg'
 import Modal from './components/Modal'
@@ -14,26 +14,51 @@ function App() {
 
 	const [expenses, setExpenses] = useState<Expense[]>([])
 
-	const handleNewBudget = () => {
-		console.log('click to add a new expense');
+	const [expenseEdit, setExpenseEdit] = useState<Expense | null>(null)
+
+	useEffect(() => {
+		if (expenseEdit) {
+			openModalToEdit()
+		}
+	}, [expenseEdit])
+
+	const openModalToEdit = () => {
 		setModal(true)
+		setTimeout(() => {
+			setAnimateModal(true)
+		}, 200);
+	}
+
+	const handleNewBudget = () => {
+		setModal(true)
+		setExpenseEdit(null)
 		
 		setTimeout(() => {
-			console.log('animando modal');
 			setAnimateModal(true)
 			
 		}, 200);
 	}
 
 	const saveExpense = (expense: Expense) => {
-		expense.id = generateId()
-		expense.date = Date.now()
-		setExpenses([...expenses, expense])
+
+		if (expense.id) {
+			const expensesUpdated = expenses.map(exp => exp.id === expense.id ? expense : exp)
+			setExpenses(expensesUpdated)
+			setExpenseEdit(null)
+		} else {
+			expense.id = generateId()
+			expense.date = Date.now()
+			setExpenses([...expenses, expense])
+		}
 
 		setAnimateModal(false)
 		setTimeout(() => {
 			setModal(false)
 		}, 200);
+	}
+
+	const deleteExpense = (id: string) => {
+		setExpenses(expenses.filter(exp => exp.id !== id))
 	}
 
   return (
@@ -52,6 +77,8 @@ function App() {
 						<main>
 							<ExpenseList
 								expenses={expenses}
+								setExpenseEdit={setExpenseEdit}
+								deleteExpense={deleteExpense}
 							/>
 						</main>
 						<div className='nuevo-gasto'>
@@ -71,6 +98,8 @@ function App() {
 					animateModal={animateModal}
 					setAnimateModal={setAnimateModal}
 					saveExpense={saveExpense}
+					expenseEdit={expenseEdit}
+					setExpenseEdit={setExpenseEdit}
 				/>
 			)
 			}

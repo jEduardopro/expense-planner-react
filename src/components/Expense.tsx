@@ -28,21 +28,23 @@ const iconDictionary: Record<string, any> = {
 }
 
 type Props = {
-	expense: ExpenseItem
+	expense: ExpenseItem,
+	setExpenseEdit: (expense: ExpenseItem | null) => void;
+	deleteExpense: (id: string) => void;
 }
 
-const Expense = ({ expense }: Props) => {
+const Expense = ({ expense, setExpenseEdit, deleteExpense }: Props) => {
 	const { category, name, quantity, id, date } = expense
 
 	const leadingActions = () => (
 		<LeadingActions>
-			<SwipeAction onClick={() => console.log()}>Edit</SwipeAction>
+			<SwipeAction onClick={() => setExpenseEdit(expense)}>Edit</SwipeAction>
 		</LeadingActions>
 	)
 	
 	const trailingActions = () => (
 		<TrailingActions>
-			<SwipeAction onClick={() => console.log()}>Delete</SwipeAction>
+			<SwipeAction onClick={() => deleteExpense(id!)} destructive={true}>Delete</SwipeAction>
 		</TrailingActions>
 	)
 	

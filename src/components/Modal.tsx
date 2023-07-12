@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CloseBtn from '../img/cerrar.svg'
 import Message from './Message';
 import { Expense } from '../types/Expense';
@@ -8,18 +8,33 @@ type Props = {
 	animateModal: boolean;
 	setAnimateModal: (status: boolean) => void;
 	saveExpense: (expense: Expense) => void;
+	expenseEdit: Expense | null;
+	setExpenseEdit: (expense: Expense | null) => void;
 }
 
-const Modal = ({ setModal, animateModal, setAnimateModal, saveExpense}: Props) => {
+const Modal = ({ setModal, animateModal, setAnimateModal, saveExpense, expenseEdit, setExpenseEdit}: Props) => {
 
 	const [message, setMessage] = useState('')
 	
 	const [name, setName] = useState('')
 	const [quantity, setQuantity] = useState(0)
 	const [category, setCategory] = useState('')
+	const [date, setDate] = useState(0)
+	const [id, setId] = useState('')
+
+	useEffect(() => {
+		if (expenseEdit) {
+			setName(expenseEdit.name)
+			setQuantity(expenseEdit.quantity)
+			setCategory(expenseEdit.category)
+			setDate(expenseEdit.date!)
+			setId(expenseEdit.id!)
+		}
+	},[expenseEdit])
 
 	const closeModal = () => {
 		setAnimateModal(false)
+		setExpenseEdit(null)
 		setTimeout(() => {
 			setModal(false)
 		}, 200);
@@ -37,7 +52,7 @@ const Modal = ({ setModal, animateModal, setAnimateModal, saveExpense}: Props) =
 			return
 		}
 			
-		saveExpense({name, quantity, category})
+		saveExpense({name, quantity, category, id, date})
 	}
 
 	return (
@@ -53,7 +68,7 @@ const Modal = ({ setModal, animateModal, setAnimateModal, saveExpense}: Props) =
 			<form
 				onSubmit={handleSubmit}
 				className={`formulario ${animateModal ? 'animar' : 'cerrar'}`}>
-				<legend>New Expense</legend>
+				<legend>{expenseEdit ? 'Edit Expense' : 'New Expense'}</legend>
 				{message && <Message type="error" >{message}</Message>}
 				<div className='campo'>
 					<label htmlFor="name">Name</label>
@@ -89,7 +104,7 @@ const Modal = ({ setModal, animateModal, setAnimateModal, saveExpense}: Props) =
 					</select>
 				</div>
 
-				<input type="submit" value="Add Expense" />
+				<input type="submit" value={expenseEdit ? 'Save Changes' : 'Add Expense'} />
 			</form>
 		</div>
 	)

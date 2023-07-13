@@ -8,9 +8,10 @@ type Props = {
 	setBudget: (budget: number) => void;
 	budgetIsValid: boolean;
 	setBudgetIsValid: (isValid: boolean) => void;
+	setExpenses: (expenses: Expense[]) => void;
 }
 
-const Header = ({expenses, budget, setBudget, budgetIsValid, setBudgetIsValid}: Props) => {
+const Header = ({expenses, budget, setBudget, budgetIsValid, setBudgetIsValid, setExpenses}: Props) => {
 	return (
 		<header>
 			<h1>Expense Planner</h1>
@@ -20,6 +21,9 @@ const Header = ({expenses, budget, setBudget, budgetIsValid, setBudgetIsValid}: 
 					<BudgetControl
 						expenses={expenses}
 						budget={budget}
+						setExpenses={setExpenses}
+						setBudget={setBudget}
+						setBudgetIsValid={setBudgetIsValid}
 					/>
 				) : (
 					<NewBudget

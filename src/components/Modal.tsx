@@ -87,7 +87,7 @@ const Modal = ({ setModal, animateModal, setAnimateModal, saveExpense, expenseEd
 						type="number"
 						placeholder="Quantity"
 						value={quantity}
-						onChange={e => setQuantity(parseFloat(e.target.value))}
+						onChange={e => setQuantity(parseFloat(e.target.value || '0'))}
 					/>
 				</div>
 				<div className='campo'>

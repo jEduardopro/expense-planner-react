@@ -11,10 +11,10 @@ const NewBudget = ({ budget, setBudget, setBudgetIsValid }: Props) => {
 
 	const [message, setMessage] = useState<string>('')
 	
-	const handleBudget = (e: React.FormEvent) => {
+	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
 
-		if (budget < 0) {
+		if (!budget || budget < 0) {
 			setMessage('Budget must be greater than 0')
 			return
 		}
@@ -23,9 +23,16 @@ const NewBudget = ({ budget, setBudget, setBudgetIsValid }: Props) => {
 		setBudgetIsValid(true)
 	}
 
+	const handleBudget = (value: string) => {
+		if (!value) {
+			return
+		}
+		setBudget(parseFloat(value))
+	}
+ 
 	return (
 		<div className='contenedor-presupuesto contenedor sombra'>
-			<form className='formulario' onSubmit={handleBudget}>
+			<form className='formulario' onSubmit={handleSubmit}>
 				<div className='campo'>
 					<label>Define budget</label>
 					<input
@@ -33,7 +40,7 @@ const NewBudget = ({ budget, setBudget, setBudgetIsValid }: Props) => {
 						type="number"
 						placeholder='enter your budget'
 						value={budget}
-						onChange={e => setBudget(parseFloat(e.target.value))}
+						onChange={e => handleBudget(e.target.value)}
 					/>
 
 					<input type="submit" value="Add" />

@@ -94,13 +94,13 @@ const Modal = ({ setModal, animateModal, setAnimateModal, saveExpense, expenseEd
 					<label htmlFor="category">Category</label>
 					<select id="category" value={category} onChange={e => setCategory(e.target.value)}>
 						<option value="">-- Select --</option>
-						<option value="saving">saving</option>
-						<option value="food">food</option>
-						<option value="home">home</option>
-						<option value="expenses">miscellaneous expenses</option>
-						<option value="leisure">leisure</option>
-						<option value="health">health</option>
-						<option value="subscriptions">subscriptions</option>
+						<option value="saving">Saving</option>
+						<option value="food">Food</option>
+						<option value="home">Home</option>
+						<option value="expenses">Miscellaneous expenses</option>
+						<option value="leisure">Leisure</option>
+						<option value="health">Health</option>
+						<option value="subscriptions">Subscriptions</option>
 					</select>
 				</div>
 

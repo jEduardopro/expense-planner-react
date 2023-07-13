@@ -5,18 +5,20 @@ import Modal from './components/Modal'
 import { Expense } from './types/Expense';
 import { generateId } from './helpers';
 import ExpenseList from './components/ExpenseList';
+import Filters from './components/Filters';
 
 function App() {
 
 	const budgetInitialState = parseFloat(localStorage.getItem('budget') || '0')
+	const expensesInitialState = JSON.parse(localStorage.getItem('expenses') || '[]')
 	const [budget, setBudget] = useState(budgetInitialState)
 	const [budgetIsValid, setBudgetIsValid] = useState(false)
 	const [modal, setModal] = useState(false)
 	const [animateModal, setAnimateModal] = useState(false)
-
-	const [expenses, setExpenses] = useState<Expense[]>([])
-
+	const [expenses, setExpenses] = useState<Expense[]>(expensesInitialState)
 	const [expenseEdit, setExpenseEdit] = useState<Expense | null>(null)
+	const [filter, setFilter] = useState('')
+	const [filteredExpenses, setFilteredExpenses] = useState<Expense[]>([])
 
 	useEffect(() => {
 		if (expenseEdit) {
@@ -29,11 +31,22 @@ function App() {
 	}, [budget])
 
 	useEffect(() => {
+		localStorage.setItem('expenses', JSON.stringify(expenses))
+	}, [expenses])
+
+	useEffect(() => {
 		const budgetLS = parseFloat(localStorage.getItem('budget') || '0')
 		if (budgetLS > 0) {
 			setBudgetIsValid(true)
 		}
 	}, [])
+
+	useEffect(() => {
+		if (filter) {
+			const filteredExpenses = expenses.filter(exp => exp.category === filter)
+			setFilteredExpenses(filteredExpenses)
+		}
+	},[filter])
 
 	const openModalToEdit = () => {
 		setModal(true)
@@ -88,6 +101,7 @@ function App() {
 				budgetIsValid && (
 					<>
 						<main>
+							<Filters filter={filter} setFilter={setFilter} />
 							<ExpenseList
 								expenses={expenses}
 								setExpenseEdit={setExpenseEdit}

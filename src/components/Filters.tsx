@@ -12,7 +12,7 @@ const Filters = ({filter, setFilter}: Props) => {
 				<div className='campo'>
 					<label>Filter Expenses</label>
 					<select value={filter} onChange={e => setFilter(e.target.value)}>
-						<option value="">-- Select --</option>
+						<option value="">-- All categories --</option>
 						<option value="saving">Saving</option>
 						<option value="food">Food</option>
 						<option value="home">Home</option>

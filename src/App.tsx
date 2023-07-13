@@ -7,7 +7,9 @@ import { generateId } from './helpers';
 import ExpenseList from './components/ExpenseList';
 
 function App() {
-	const [budget, setBudget] = useState(0)
+
+	const budgetInitialState = parseFloat(localStorage.getItem('budget') || '0')
+	const [budget, setBudget] = useState(budgetInitialState)
 	const [budgetIsValid, setBudgetIsValid] = useState(false)
 	const [modal, setModal] = useState(false)
 	const [animateModal, setAnimateModal] = useState(false)
@@ -21,6 +23,17 @@ function App() {
 			openModalToEdit()
 		}
 	}, [expenseEdit])
+
+	useEffect(() => {
+		localStorage.setItem('budget', budget.toString())
+	}, [budget])
+
+	useEffect(() => {
+		const budgetLS = parseFloat(localStorage.getItem('budget') || '0')
+		if (budgetLS > 0) {
+			setBudgetIsValid(true)
+		}
+	}, [])
 
 	const openModalToEdit = () => {
 		setModal(true)
